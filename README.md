@@ -34,7 +34,7 @@ To ensure high-quality annotations, all these properties were manually annotated
 games.
 ## VARS
 
-Our VAR system is a multi-view multi-task video architecture, that automatically identifies the type of foul and their severity. 
+Our VARS is a multi-view multi-task video architecture, that automatically identifies the type of foul and their severity. 
 
 ![My Image](images/pipeline_mvfoul.jpg)
 
