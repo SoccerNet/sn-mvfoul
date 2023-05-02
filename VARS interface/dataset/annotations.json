@@ -1,0 +1,176 @@
+{
+    "Set": "test",
+    "Number of actions": 5,
+    "Actions": {
+        "0": {
+            "UrlLocal": "europe_uefa-champions-league\\2015-2016\\2016-04-05 - 21-45 Bayern Munich 1 - 0 Benfica",
+            "Offence": "Offence",
+            "Contact": "With contact",
+            "Bodypart": "Under body",
+            "Upper body part": "",
+            "Action class": "Standing tackling",
+            "Severity": "3.0",
+            "Multiple fouls": "No",
+            "Try to play": "Yes",
+            "Touch ball": "No",
+            "Handball": "No handball",
+            "Handball offence": "",
+            "Clips": [
+                {
+                    "Url": "Dataset/action_0/clip_0",
+                    "Camera type": "Main camera center",
+                    "Timestamp": 1259839,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_0/clip_1",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1281212,
+                    "Replay speed": 4.2
+                },
+                {
+                    "Url": "Dataset/action_0/clip_2",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1287124,
+                    "Replay speed": 3.6
+                }
+            ]
+        },
+        "1": {
+            "UrlLocal": "spain_laliga\\2016-2017\\2017-04-08 - 21-45 Malaga 2 - 0 Barcelona",
+            "Offence": "Offence",
+            "Contact": "With contact",
+            "Bodypart": "Under body",
+            "Upper body part": "",
+            "Action class": "Tackling",
+            "Severity": "3.0",
+            "Multiple fouls": "No",
+            "Try to play": "Yes",
+            "Touch ball": "No",
+            "Handball": "No handball",
+            "Handball offence": "",
+            "Clips": [
+                {
+                    "Url": "Dataset/action_1/clip_0",
+                    "Camera type": "Main camera center",
+                    "Timestamp": 471255,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_1/clip_1",
+                    "Camera type": "Main behind the goal",
+                    "Timestamp": 504309,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_1/clip_2",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 509971,
+                    "Replay speed": 4.0
+                }
+            ]
+        },
+        "2": {
+            "UrlLocal": "europe_uefa-champions-league\\2015-2016\\2015-09-29 - 21-45 FC Porto 2 - 1 Chelsea",
+            "Offence": "Offence",
+            "Contact": "With contact",
+            "Bodypart": "Upper body",
+            "Upper body part": "Use of arms",
+            "Action class": "Holding",
+            "Severity": "3.0",
+            "Multiple fouls": "No",
+            "Try to play": "",
+            "Touch ball": "",
+            "Handball": "No handball",
+            "Handball offence": "",
+            "Clips": [
+                {
+                    "Url": "Dataset/action_2/clip_0",
+                    "Camera type": "Main camera center",
+                    "Timestamp": 1227199,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_2/clip_1",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1241941,
+                    "Replay speed": 2.2
+                },
+                {
+                    "Url": "Dataset/action_2/clip_2",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1251472,
+                    "Replay speed": 1.8
+                }
+            ]
+        },
+        "3": {
+            "UrlLocal": "england_epl\\2014-2015\\2015-02-21 - 18-00 Crystal Palace 1 - 2 Arsenal",
+            "Offence": "Offence",
+            "Contact": "With contact",
+            "Bodypart": "Under body",
+            "Upper body part": "",
+            "Action class": "High leg",
+            "Severity": "5.0",
+            "Multiple fouls": "",
+            "Try to play": "Yes",
+            "Touch ball": "No",
+            "Handball": "No handball",
+            "Handball offence": "",
+            "Clips": [
+                {
+                    "Url": "Dataset/action_3/clip_0",
+                    "Camera type": "Main camera center",
+                    "Timestamp": 224572,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_3/clip_1",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 238068,
+                    "Replay speed": 1.8
+                }
+            ]
+        },
+        "4": {
+            "UrlLocal": "spain_laliga\\2016-2017\\2016-11-19 - 18-15 Barcelona 0 - 0 Malaga",
+            "Offence": "Offence",
+            "Contact": "With contact",
+            "Bodypart": "Under body",
+            "Upper body part": "",
+            "Action class": "Tackling",
+            "Severity": "3.0",
+            "Multiple fouls": "No",
+            "Try to play": "Yes",
+            "Touch ball": "No",
+            "Handball": "No handball",
+            "Handball offence": "",
+            "Clips": [
+                {
+                    "Url": "Dataset/action_4/clip_0",
+                    "Camera type": "Main camera center",
+                    "Timestamp": 1369840,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_4/clip_1",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1398295,
+                    "Replay speed": 1.0
+                },
+                {
+                    "Url": "Dataset/action_4/clip_2",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1401792,
+                    "Replay speed": 2.2
+                },
+                {
+                    "Url": "Dataset/action_4/clip_3",
+                    "Camera type": "Close-up player or field referee",
+                    "Timestamp": 1406573,
+                    "Replay speed": 2.2
+                }
+            ]
+        }
+    }
+}
