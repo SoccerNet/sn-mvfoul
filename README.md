@@ -17,14 +17,9 @@ For more information
 ![My Image](images/abstract_image.jpg)
 ## SoccerNet-MVFouls
 
-The dataset can be downloaded from the following link
-
-```bash
-  bla bla
-```
-
+The dataset can be downloaded from the following [link](https://drive.google.com/drive/folders/1Cx0-AzvxRS2YWTGtcMBZ5MR_06Q2tYaU?usp=sharing)
 The dataset consists of 3628 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
-The dataset is divided into a training set (2916 actions), validation set (411 actions) and test set(301 actions).
+The dataset is divided into a training set (2916 actions), validation set (411 actions) and test set (301 actions).
 
 ![My Image](images/dataset_example.png)
 
