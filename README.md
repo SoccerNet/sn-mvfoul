@@ -64,8 +64,4 @@ See the [License](LICENSE) file for details.
 
 For further information check out our [paper](https://arxiv.org/abs/2304.04617) and supplementary material.
 
-Please cite our work if you use our dataset or code:
-
-```bash
-  bla bla
-```
+Please cite our work if you use our dataset or code.
