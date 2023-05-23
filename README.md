@@ -45,7 +45,11 @@ conda activate vars
 conda install pytorch torchvision cudatoolkit=11.7 -c pytorch -c conda-forge
 
 pip install -r requirements.txt
+```
 
+To start the training, run the following command:
+
+```
 python main.py --path "path/to/dataset" 
 ```
 
@@ -54,8 +58,7 @@ python main.py --path "path/to/dataset"
 The VARS interface enables easy access to all available
 perspectives for a particular action. The multi-task VARS,
 which achieved the best results on the test set, is built directly into the interface, allowing for immediate analysis of
-selected videos. The VARS interface offers top two predictions for the type of foul classification, as well as the offense and severity classification for the selected videos. Furthermore, for each prediction, the VARS interface shows the
-confidence score of his prediction.
+selected videos. The VARS interface offers top two predictions for the type of foul classification, as well as the offense and severity classification for the selected videos. Furthermore, for each prediction, the VARS interface shows the confidence score of his prediction.
 
 ![My Image](images/vars_interface.png)
 
@@ -71,14 +74,13 @@ pip install -r requirements.txt
 ```
 Download the weights of the model: https://drive.google.com/drive/folders/1N0Lv-lcpW8w34_iySc7pnlQ6eFMSDvXn?usp=share_link
 
-And save the 8_model.pth.tar file in the folder "interface"
+And save the 8_model.pth.tar file in the folder "interface".
 
-Once the environment is ready, you can simply run the interface with the following commands:
+Once the environment is ready, you can simply run the interface with the following command:
 ```
 python main.py
 ```
-
-Then select one or several clips in the folder "Dataset"
+Then select one or several clips in the folder "Dataset".
 
 
 ## Demo
