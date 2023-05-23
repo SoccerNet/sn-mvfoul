@@ -36,6 +36,19 @@ Our VARS is a multi-view multi-task video architecture, that automatically ident
 
 Our system encodes per-view video features (E), aggregates the view features (A), and classifies different properties of the foul action (C).
 
+Run the following lines to install all the dependencies:
+```
+conda create -n vars python=3.9
+
+conda activate vars
+
+conda install pytorch torchvision cudatoolkit=11.7 -c pytorch -c conda-forge
+
+pip install -r requirements.txt
+
+python main.py --path "path/to/dataset" 
+```
+
 ## VARS interface
 
 The VARS interface enables easy access to all available
