@@ -11,4 +11,4 @@ conda install pytorch torchvision cudatoolkit=11.7 -c pytorch -c conda-forge
 
 pip install -r requirements.txt
 
-python main.py
+python main.py --path "path/to/dataset" 
