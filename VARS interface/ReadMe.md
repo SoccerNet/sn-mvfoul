@@ -26,5 +26,5 @@ Once the environment is ready, you can simply run the annotation tool for camera
 python main.py
 ```
 
-Then select one or several clips in the folder "Dataset"
+Then select one or several clips in the folder "Dataset". The clips should be 5 seconds long and the foul should be around the 3th second.
 
