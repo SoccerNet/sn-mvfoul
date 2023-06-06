@@ -23,6 +23,7 @@ To install the pip package simply run:
 
 ```
 pip install SoccerNet
+pip install soccernet --upgrade
 ```
 
 If you want to download the data, you will need to fill a NDA to get the password.
