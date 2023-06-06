@@ -17,9 +17,26 @@ For more information
 ![My Image](images/abstract_image.jpg)
 ## SoccerNet-MVFouls
 
-If you want to download the dataset, you will need to fill a NDA to get the password and the link to the dataset.
-The dataset consists of 3628 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
-The dataset is divided into a training set (2916 actions), validation set (411 actions) and test set (301 actions).
+A [SoccerNet pip package]([https://arxiv.org/abs/2304.04617](https://pypi.org/project/SoccerNet/)) to easily download the data and the annotations is available.
+
+To install the pip package simply run:
+
+```
+pip install SoccerNet
+```
+
+If you want to download the data, you will need to fill a NDA to get the password.
+
+Then use the API to downlaod the data:
+
+```
+from SoccerNet.Downloader import SoccerNetDownloader as SNdl
+mySNdl = SNdl(LocalDirectory="path/to/SoccerNet")
+mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="s0cc3rn3t")
+```
+
+The dataset consists of 3901 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
+The dataset is divided into a training set (2916 actions), validation set (411 actions), test set (301 actions) and challenge set (273 actions without the annotations).
 
 ![My Image](images/dataset_example.png)
 
