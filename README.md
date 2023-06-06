@@ -119,4 +119,16 @@ See the [License](LICENSE) file for details.
 
 For further information check out our [paper](https://arxiv.org/abs/2304.04617) and supplementary material.
 
-Please cite our work if you use our dataset or code.
+Please cite our work if you use our dataset or code:
+```
+@InProceedings{Held2023VARS,
+    author    = {Held, Jan and Cioppa, Anthony and Giancola, Silvio and Hamdi, Abdullah and Ghanem, Bernard and Van Droogenbroeck, Marc},
+    title     = {{VARS}: Video Assistant Referee System for Automated Soccer Decision Making From Multiple Views},
+    booktitle = cvsports,
+    month     = Jun,
+    year      = {2023},
+	publisher = ieee,
+	address = seattle,
+    pages     = {5085-5096}
+}
+```
