@@ -17,7 +17,7 @@ For more information
 ![My Image](images/abstract_image.jpg)
 ## SoccerNet-MVFouls
 
-A [SoccerNet pip package](https://pypi.org/project/SoccerNet/)) to easily download the data and the annotations is available.
+A [SoccerNet pip package](https://pypi.org/project/SoccerNet/) to easily download the data and the annotations is available.
 
 To install the pip package simply run:
 
