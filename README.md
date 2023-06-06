@@ -32,7 +32,7 @@ Then use the API to downlaod the data:
 ```
 from SoccerNet.Downloader import SoccerNetDownloader as SNdl
 mySNdl = SNdl(LocalDirectory="path/to/SoccerNet")
-mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="s0cc3rn3t")
+mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="enter_password")
 ```
 
 The dataset consists of 3901 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
