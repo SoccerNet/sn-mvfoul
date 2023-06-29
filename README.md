@@ -19,6 +19,8 @@ For more information
 
 A [SoccerNet pip package](https://pypi.org/project/SoccerNet/) to easily download the data and the annotations is available.
 
+The dataset is currently available only at 224p resolution. However, it will soon be made available at a higher resolution of 720p.
+
 To install the pip package simply run:
 
 ```
