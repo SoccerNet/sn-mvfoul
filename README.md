@@ -17,7 +17,7 @@ For more information
 ![My Image](images/abstract_image.jpg)
 ## SoccerNet-MVFouls
 
-Follow the [link](https://pypi.org/project/SoccerNet/) to easily download SoccerNet pip package.
+Follow the [link](https://pypi.org/project/SoccerNet/) to easily download the SoccerNet pip package.
 
 If you want to download the data and annotations, you will need to fill a [NDA](https://docs.google.com/forms/d/e/1FAIpQLSfYFqjZNm4IgwGnyJXDPk2Ko_lZcbVtYX73w5lf6din5nxfmA/viewform) to get the password.
 
@@ -25,6 +25,7 @@ Then use the API to downlaod the data:
 
 ```
 from SoccerNet.Downloader import SoccerNetDownloader
+mySoccerNetDownloader = SoccerNetDownloader(LocalDirectory="/path/to/SoccerNet")
 mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="224p", password="enter password")
 mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="720p", password="enter password")
 ```
