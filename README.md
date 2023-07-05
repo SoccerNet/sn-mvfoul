@@ -17,25 +17,16 @@ For more information
 ![My Image](images/abstract_image.jpg)
 ## SoccerNet-MVFouls
 
-A [SoccerNet pip package](https://pypi.org/project/SoccerNet/) to easily download the data and the annotations is available.
+Follow the [link](https://pypi.org/project/SoccerNet/) to easily download SoccerNet pip package.
 
-The dataset is currently available only at 224p resolution. However, it will soon be made available at a higher resolution of 720p.
-
-To install the pip package simply run:
-
-```
-pip install SoccerNet
-pip install soccernet --upgrade
-```
-
-If you want to download the data, you will need to fill a [NDA](https://docs.google.com/forms/d/e/1FAIpQLSfYFqjZNm4IgwGnyJXDPk2Ko_lZcbVtYX73w5lf6din5nxfmA/viewform) to get the password.
+If you want to download the data and annotations, you will need to fill a [NDA](https://docs.google.com/forms/d/e/1FAIpQLSfYFqjZNm4IgwGnyJXDPk2Ko_lZcbVtYX73w5lf6din5nxfmA/viewform) to get the password.
 
 Then use the API to downlaod the data:
 
 ```
-from SoccerNet.Downloader import SoccerNetDownloader as SNdl
-mySNdl = SNdl(LocalDirectory="path/to/SoccerNet")
-mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="enter_password")
+from SoccerNet.Downloader import SoccerNetDownloader
+mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="224p", password="enter password")
+mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="720p", password="enter password")
 ```
 
 The dataset consists of 3901 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
