@@ -24,11 +24,11 @@ If you want to download the data and annotations, you will need to fill a [NDA](
 Then use the API to downlaod the data:
 
 ```
-from SoccerNet.Downloader import SoccerNetDownloader
-mySoccerNetDownloader = SoccerNetDownloader(LocalDirectory="/path/to/SoccerNet")
-mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="224p", password="enter password")
-mySoccerNetDownloader.downloadDataTask(task="mvfouls", split=["challenge"], version="720p", password="enter password")
+from SoccerNet.Downloader import SoccerNetDownloader as SNdl
+mySNdl = SNdl(LocalDirectory="path/to/SoccerNet")
+mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="enter password")
 ```
+The dataset will be available at 720p soon!
 
 The dataset consists of 3901 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
 The dataset is divided into a training set (2916 actions), validation set (411 actions), test set (301 actions) and challenge set (273 actions without the annotations).
