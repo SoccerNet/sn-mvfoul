@@ -70,7 +70,7 @@ python main.py --path "path/to/dataset"
 The VARS interface enables easy access to all available
 perspectives for a particular action. The multi-task VARS,
 which achieved the best results on the test set, is built directly into the interface, allowing for immediate analysis of
-selected videos. The VARS interface offers top two predictions for the type of foul classification, as well as the offense and severity classification for the selected videos. Furthermore, for each prediction, the VARS interface shows the confidence score of his prediction.
+selected videos. The VARS interface offers top two predictions for the type of foul classification, as well as the offence and severity classification for the selected videos. Furthermore, for each prediction, the VARS interface shows the confidence score of his prediction.
 
 ![My Image](images/vars_interface.png)
 
