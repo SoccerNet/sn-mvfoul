@@ -8,9 +8,8 @@ conda create -n vars python=3.9
 
 conda activate vars
 
-pip install git+https://github.com/ajhamdi/mvtorch
-
 pip install -r requirements.txt
+pip install av
 ```
 
 # Download the dataset weights
