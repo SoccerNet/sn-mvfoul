@@ -16,7 +16,7 @@ pip install av
 
 Download the weights of the model: https://drive.google.com/drive/folders/1N0Lv-lcpW8w34_iySc7pnlQ6eFMSDvXn?usp=share_link
 
-And save the 8_model.pth.tar file in the folder "interface"
+And save the 14_model.pth.tar file in the folder "interface"
 
 # Run the tool
 Once the environment is ready, you can simply run the annotation tool for camera shots and replays with the following commands:
