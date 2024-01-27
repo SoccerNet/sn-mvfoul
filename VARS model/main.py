@@ -1,37 +1,23 @@
 import os
 import logging
-from datetime import datetime
 import time
 import numpy as np
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-
+from SoccerNet.Evaluation.MV_FoulRecognition import evaluate
 import torch
-import random
 from dataset import MultiViewDataset
-from train import trainer
+from train import trainer, evaluation
 import torch.nn as nn
-import wandb
 import torchvision.transforms as transforms
-from torchvision.io.video import read_video, write_video
-from evaluate import EvaluationMetric
 from model import MVNetwork
 from config.classes import EVENT_DICTIONARY, INVERSE_EVENT_DICTIONARY
 from torchvision.models.video import R3D_18_Weights, MC3_18_Weights
 from torchvision.models.video import R2Plus1D_18_Weights, S3D_Weights
 from torchvision.models.video import MViT_V2_S_Weights, MViT_V1_B_Weights
+from torchvision.models.video import mvit_v2_s, MViT_V2_S_Weights, mvit_v1_b, MViT_V1_B_Weights
 
-
-# Fixing seeds for reproducibility
-#torch.manual_seed(55)
-#np.random.seed(16)
 
 def checkArguments():
-
-    # args.type
-    if args.type != 'Replay' and args.type != 'Both' and args.type != 'Live':
-        print("Could not find your desired argument for --type:")
-        print("Possible types are: Replay, Both or Live")
-        exit()
 
     # args.num_views
     if args.num_views > 5 or  args.num_views < 1:
@@ -46,7 +32,7 @@ def checkArguments():
         exit()
 
     # args.pooling_type
-    if args.pooling_type != 'max' and args.pooling_type != 'mean':
+    if args.pooling_type != 'max' and args.pooling_type != 'mean' and args.pooling_type != 'attention':
         print("Could not find your desired argument for --args.pooling_type:")
         print("Possible arguments are: max or mean")
         exit()
@@ -75,52 +61,47 @@ def checkArguments():
         print("Possible number for the fps are between 1 and 25")
         exit()
 
-    # args.random_shift
-    if args.random_shift < 0 or args.random_shift + args.end_frame > 125 or - args.random_shift + args.end_frame < 0:
-        print("Your desired argument for --args.random_shift does not work:")
-        print("It should be positive, random_shift + end_frame < 126 and start_frame - random_shift > 0")
-        exit()
-
 
 def main(*args):
 
-    args = args[0]
-    LR = args.LR
-    gamma = args.gamma
-    weight_decay = args.weight_decay
-    step_size = args.step_size
-    start_frame = args.start_frame
-    end_frame = args.end_frame
-    random_shift = args.random_shift
+    if args:
+        args = args[0]
+        LR = args.LR
+        gamma = args.gamma
+        step_size = args.step_size
+        start_frame = args.start_frame
+        end_frame = args.end_frame
+        weight_decay = args.weight_decay
         
-    model_name = args.model_name
-    pre_model = args.pre_model
-    num_views = args.num_views
-    scheduler = args.scheduler
-    fps = args.fps
-    number_of_frames = int((args.end_frame - args.start_frame) / ((args.end_frame - args.start_frame) / (((args.end_frame - args.start_frame) / 25) * args.fps)))
-    batch_size = args.batch_size
-    data_aug = args.data_aug
-    path = args.path
-    pooling_type = args.pooling_type
-    weighted_loss = args.weighted_loss
-    patience = args.patience
-    max_num_worker = args.max_num_worker
-    max_epochs = args.max_epochs
-    lr_warmup = args.lr_warmup
-    continue_training = args.continue_training
+        model_name = args.model_name
+        pre_model = args.pre_model
+        num_views = args.num_views
+        fps = args.fps
+        number_of_frames = int((args.end_frame - args.start_frame) / ((args.end_frame - args.start_frame) / (((args.end_frame - args.start_frame) / 25) * args.fps)))
+        batch_size = args.batch_size
+        data_aug = args.data_aug
+        path = args.path
+        pooling_type = args.pooling_type
+        weighted_loss = args.weighted_loss
+        max_num_worker = args.max_num_worker
+        max_epochs = args.max_epochs
+        continue_training = args.continue_training
+        only_evaluation = args.only_evaluation
+        path_to_model_weights = args.path_to_model_weights
+    else:
+        print("EXIT")
+        exit()
 
     # Logging information
     numeric_level = getattr(logging, 'INFO'.upper(), None)
-    print(numeric_level)
     if not isinstance(numeric_level, int):
         raise ValueError('Invalid log level: %s' % 'INFO')
 
     os.makedirs(os.path.join("models", os.path.join(model_name, os.path.join(str(num_views), os.path.join(pre_model, os.path.join(str(LR),
-                            "_B" + str(batch_size) + "_F" + str(number_of_frames) + "_S" + str(scheduler) + "_G" + str(gamma) + "_Step" + str(step_size)))))), exist_ok=True)
+                            "_B" + str(batch_size) + "_F" + str(number_of_frames) + "_S" + "_G" + str(gamma) + "_Step" + str(step_size)))))), exist_ok=True)
 
     best_model_path = os.path.join("models", os.path.join(model_name, os.path.join(str(num_views), os.path.join(pre_model, os.path.join(str(LR),
-                            "_B" + str(batch_size) + "_F" + str(number_of_frames) + "_S" + str(scheduler) + "_G" + str(gamma) + "_Step" + str(step_size))))))
+                            "_B" + str(batch_size) + "_F" + str(number_of_frames) + "_S" + "_G" + str(gamma) + "_Step" + str(step_size))))))
 
 
     log_path = os.path.join(best_model_path, "logging.log")
@@ -161,99 +142,157 @@ def main(*args):
         print("Warning: Could not find the desired pretrained model")
         print("Possible options are: r3d_18, s3d, mc3_18, mvit_v2_s and r2plus1d_18")
         print("We continue with r2plus1d_18")
-
-
-    # Create Train Validation and Test datasets
-    dataset_Train = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Train', types='Both', shift=random_shift,
-        num_views = num_views, transform=transformAug, transform_model=transforms_model) 
-    dataset_Valid2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Valid', types='Live', num_views = 0, 
-        transform_model=transforms_model)
-    dataset_Test2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Test', types='Live', num_views = 0, 
-        transform_model=transforms_model)
     
-    # Create the dataloaders for train validation and test datasets
-    train_loader = torch.utils.data.DataLoader(dataset_Train,
-        batch_size=batch_size, shuffle=True,
-        num_workers=max_num_worker, pin_memory=True)
+    if only_evaluation == 0:
+        dataset_Test2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Test', num_views = 5, 
+        transform_model=transforms_model)
+        
+        test_loader2 = torch.utils.data.DataLoader(dataset_Test2,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
+    elif only_evaluation == 1:
+        dataset_Chall = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Chall', num_views = 5, 
+        transform_model=transforms_model)
 
-    val_loader2 = torch.utils.data.DataLoader(dataset_Valid2,
-        batch_size=1, shuffle=False,
-        num_workers=max_num_worker, pin_memory=True)
-    
-    test_loader2 = torch.utils.data.DataLoader(dataset_Test2,
-        batch_size=1, shuffle=False,
-        num_workers=max_num_worker, pin_memory=True)
+        chall_loader2 = torch.utils.data.DataLoader(dataset_Chall,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
+    elif only_evaluation == 2:
+        dataset_Test2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Test', num_views = 5, 
+        transform_model=transforms_model)
+        dataset_Chall = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Chall', num_views = 5, 
+        transform_model=transforms_model)
 
-    model = MVNetwork(net_name=pre_model, agr_type=pooling_type).cuda()
-    #model = MVNetwork(net_name=pre_model, agr_type=pooling_type)
-
-    optimizer = torch.optim.Adam(model.parameters(), lr=LR, 
-                                    betas=(0.9, 0.999), eps=1e-07, 
-                                    weight_decay=weight_decay, amsgrad=False)
-    if scheduler == 0:
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', verbose=True, patience=500000)
-    elif scheduler == 1:
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', verbose=True, patience=patience)
-    elif scheduler == 2:
-        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
-    elif scheduler == 3:
-        scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
-    elif scheduler == 4:
-        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, gamma=gamma)
+        test_loader2 = torch.utils.data.DataLoader(dataset_Test2,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
+        
+        chall_loader2 = torch.utils.data.DataLoader(dataset_Chall,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
     else:
-        print("agrs.scheduler not valide")
-        print("0: no scheduler, 1: ReduceLROnPlateau, 2: StepLR, 3: ExponentialLR, 4: Decrease LR by gamma if vali loss increases")
-        exit()
-    epoch_start = 0
+        # Create Train Validation and Test datasets
+        dataset_Train = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Train',
+            num_views = num_views, transform=transformAug, transform_model=transforms_model)
+        dataset_Valid2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Valid', num_views = 5, 
+            transform_model=transforms_model)
+        dataset_Test2 = MultiViewDataset(path=path, start=start_frame, end=end_frame, fps=fps, split='Test', num_views = 5, 
+            transform_model=transforms_model)
 
-    if continue_training:
-        path_model = os.path.join(log_path, 'model.pth.tar')
+        # Create the dataloaders for train validation and test datasets
+        train_loader = torch.utils.data.DataLoader(dataset_Train,
+            batch_size=batch_size, shuffle=True,
+            num_workers=max_num_worker, pin_memory=True)
+
+        val_loader2 = torch.utils.data.DataLoader(dataset_Valid2,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
+        
+        test_loader2 = torch.utils.data.DataLoader(dataset_Test2,
+            batch_size=1, shuffle=False,
+            num_workers=max_num_worker, pin_memory=True)
+
+    ###################################
+    #       LOADING THE MODEL         #
+    ###################################
+    model = MVNetwork(net_name=pre_model, agr_type=pooling_type).cuda()
+
+    if path_to_model_weights != "":
+        path_model = os.path.join(path_to_model_weights)
         load = torch.load(path_model)
         model.load_state_dict(load['state_dict'])
-        optimizer.load_state_dict(load['optimizer'])
-        scheduler.load_state_dict(load['scheduler'])
-        epoch_start = load['epoch']
+
+    if only_evaluation == 3:
+
+        optimizer = torch.optim.AdamW(model.parameters(), lr=LR, 
+                                    betas=(0.9, 0.999), eps=1e-07, 
+                                    weight_decay=weight_decay, amsgrad=False)
+        
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
+
+        epoch_start = 0
+
+        if continue_training:
+            path_model = os.path.join(log_path, 'model.pth.tar')
+            load = torch.load(path_model)
+            model.load_state_dict(load['state_dict'])
+            optimizer.load_state_dict(load['optimizer'])
+            scheduler.load_state_dict(load['scheduler'])
+            epoch_start = load['epoch']
 
 
-    metric_calculator_offence_severity = EvaluationMetric(4, INVERSE_EVENT_DICTIONARY['offence_severity_class'])
-    metric_calculator_action = EvaluationMetric(8, INVERSE_EVENT_DICTIONARY['action_class'])
-    metric_calculator = [metric_calculator_offence_severity, metric_calculator_action]
+        if weighted_loss == 'Yes':
+            criterion_offence_severity = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[0].cuda())
+            criterion_action = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[1].cuda())
+            criterion = [criterion_offence_severity, criterion_action]
+        else:
+            criterion_offence_severity = nn.CrossEntropyLoss()
+            criterion_action = nn.CrossEntropyLoss()
+            criterion = [criterion_offence_severity, criterion_action]
 
 
-    if weighted_loss == 'Yes':
-        criterion_offence_severity = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[0].cuda())
-        criterion_action = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[1].cuda())
-        #criterion_offence_severity = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[0])
-        #criterion_action = nn.CrossEntropyLoss(weight=dataset_Train.getWeights()[1])
-        criterion = [criterion_offence_severity, criterion_action]
+    # Start training or evaluation
+    if only_evaluation == 0:
+        prediction_file = evaluation(
+            test_loader2,
+            model,
+            set_name="test",
+        ) 
+        results = evaluate(os.path.join(path, "Test", "annotations.json"), prediction_file)
+        print("TEST")
+        print(results)
+
+    elif only_evaluation == 1:
+        prediction_file = evaluation(
+            chall_loader2,
+            model,
+            set_name="chall",
+        )
+
+        results = evaluate(os.path.join(path, "Chall", "annotations.json"), prediction_file)
+        print("CHALL")
+        print(results)
+
+    elif only_evaluation == 2:
+        prediction_file = evaluation(
+            test_loader2,
+            model,
+            set_name="test",
+        )
+
+        results = evaluate(os.path.join(path, "Test", "annotations.json"), prediction_file)
+        print("TEST")
+        print(results)
+
+        prediction_file = evaluation(
+            chall_loader2,
+            model,
+            set_name="chall",
+        )
+
+        results = evaluate(os.path.join(path, "Chall", "annotations.json"), prediction_file)
+        print("CHALL")
+        print(results)
     else:
-        criterion_offence_severity = nn.CrossEntropyLoss()
-        criterion_action = nn.CrossEntropyLoss()
-        criterion = [criterion_offence_severity, criterion_action]
-
-    # Start training
-    trainer(train_loader, val_loader2, test_loader2, model, optimizer, scheduler, scheduler, LR, lr_warmup, 
-            criterion, metric_calculator, best_model_path, epoch_start, model_name=model_name, max_epochs=max_epochs)
-
+        trainer(train_loader, val_loader2, test_loader2, model, optimizer, scheduler, criterion, 
+                best_model_path, epoch_start, model_name=model_name, path_dataset=path, max_epochs=max_epochs)
+        
     return 0
+
 
 
 if __name__ == '__main__':
 
-    # Load the arguments
-    parser = ArgumentParser(description='my method', formatter_class=ArgumentDefaultsHelpFormatter)
-    
+    parser = ArgumentParser(description='my method', formatter_class=ArgumentDefaultsHelpFormatter)    
     parser.add_argument('--path',   required=True, type=str, help='Path to the dataset folder' )
     parser.add_argument('--max_epochs',   required=False, type=int,   default=60,     help='Maximum number of epochs' )
-    parser.add_argument('--model_name',   required=False, type=str,   default="VASM",     help='named of the model to save' )
+    parser.add_argument('--model_name',   required=False, type=str,   default="VARS",     help='named of the model to save' )
     parser.add_argument('--batch_size', required=False, type=int,   default=2,     help='Batch size' )
     parser.add_argument('--LR',       required=False, type=float,   default=1e-04, help='Learning Rate' )
-    parser.add_argument('--patience', required=False, type=int,   default=5,     help='Patience before reducing LR (ReduceLROnPlateau)' )
     parser.add_argument('--GPU',        required=False, type=int,   default=-1,     help='ID of the GPU to use' )
     parser.add_argument('--max_num_worker',   required=False, type=int,   default=1, help='number of worker to load data')
     parser.add_argument('--loglevel',   required=False, type=str,   default='INFO', help='logging level')
     parser.add_argument("--continue_training", required=False, action='store_true', help="Continue training")
-    parser.add_argument("--type", required=False, type=str, default="Replay", help="Replays, Live or both")
     parser.add_argument("--num_views", required=False, type=int, default=1, help="Number of views")
     parser.add_argument("--data_aug", required=False, type=str, default="Yes", help="Data augmentation")
     parser.add_argument("--pre_model", required=False, type=str, default="r2plus1d_18", help="Name of the pretrained model")
@@ -262,15 +301,14 @@ if __name__ == '__main__':
     parser.add_argument("--start_frame", required=False, type=int, default=0, help="The starting frame")
     parser.add_argument("--end_frame", required=False, type=int, default=125, help="The ending frame")
     parser.add_argument("--fps", required=False, type=int, default=25, help="Number of frames per second")
-    parser.add_argument("--random_shift", required=False, type=int, default=0, help="Offset (by how much we shift the frames)")
-    parser.add_argument("--weight_decay", required=False, type=float, default=0, help="Weight decay in the optimizer")
-    parser.add_argument("--scheduler", required=False, type=int, default=0, help="0: no scheduler, 1: ReduceLROnPlateau, 2: StepLR, 3: ExponentialLR, 4: Decrease LR by gamma if vali loss increases")
     parser.add_argument("--step_size", required=False, type=int, default=3, help="StepLR parameter")
     parser.add_argument("--gamma", required=False, type=float, default=0.1, help="StepLR parameter")
-    parser.add_argument("--lr_warmup", required=False, type=int, default=0, help="Learning rate warm up")
+    parser.add_argument("--weight_decay", required=False, type=float, default=0.001, help="Weight decacy")
+
+    parser.add_argument("--only_evaluation", required=False, type=int, default=3, help="Only evaluation, 0 = on test set, 1 = on chall set, 2 = on both sets and 3 = train/valid/test")
+    parser.add_argument("--path_to_model_weights", required=False, type=str, default="", help="Path to the model weights")
 
     args = parser.parse_args()
-
 
     ## Checking if arguments are valid
     checkArguments()
@@ -282,4 +320,7 @@ if __name__ == '__main__':
 
 
     # Start the main training function
+    start=time.time()
+    logging.info('Starting main function')
     main(args, False)
+    logging.info(f'Total Execution Time is {time.time()-start} seconds')
