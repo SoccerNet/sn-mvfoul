@@ -1,13 +1,6 @@
 
 import __future__
-
-import numpy as np
-import warnings
-
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
 from mvaggregate import MVAggregate
 from torchvision.models.video import r3d_18, R3D_18_Weights, MC3_18_Weights, mc3_18
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights, s3d, S3D_Weights
