@@ -83,9 +83,8 @@ conda create -n vars python=3.9
 
 conda activate vars
 
-pip install git+https://github.com/ajhamdi/mvtorch
-
 pip install -r requirements.txt
+pip install av
 ```
 Download the weights of the model: https://drive.google.com/drive/folders/1N0Lv-lcpW8w34_iySc7pnlQ6eFMSDvXn?usp=share_link
 
