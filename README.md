@@ -54,9 +54,12 @@ conda create -n vars python=3.9
 
 conda activate vars
 
-conda install pytorch torchvision cudatoolkit=11.7 -c pytorch -c conda-forge
+Install Pytorch with CUDA : https://pytorch.org/get-started/locally/
+
+pip install SoccerNet
 
 pip install -r requirements.txt
+
 ```
 
 To start the training, run the following command:
