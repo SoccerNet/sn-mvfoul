@@ -10,6 +10,7 @@ conda activate vars
 Install Pytorch with CUDA : https://pytorch.org/get-started/locally/
 
 pip install SoccerNet
+
 pip install -r requirements.txt
 
 python main.py --path "path/to/dataset" 
