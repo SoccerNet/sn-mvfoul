@@ -6,7 +6,7 @@ The Video Assistant Referee (VAR) has revolutionized association football, enabl
 We propose a first step towards a fully automated “Video Assistant Referee System” (VARS) which could support or replace the current VAR.
 
 This repository contains:
- * the SoccerNet-MVFouls, a new multi-view video dataset containing video clips of fouls captured by multiple cameras, annotated with 10 properties.
+ * the SoccerNet-MVFoul, a new multi-view video dataset containing video clips of fouls captured by multiple cameras, annotated with 10 properties.
  * the code for the VARS, a new multi-camera video recognition system for classifying the type of fouls and their severity. 
 * the VARS interface, which shows the ground truth of the action and the top 2 predictions for the foul classification task, and the offence and severity classification task with the corresponding confidence scores.
 
@@ -15,7 +15,7 @@ For more information
 
 
 ![My Image](images/abstract_image.jpg)
-## SoccerNet-MVFouls
+## SoccerNet-MVFoul
 
 Follow the [link](https://pypi.org/project/SoccerNet/) to easily download the SoccerNet pip package.
 
