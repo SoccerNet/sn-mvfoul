@@ -29,9 +29,9 @@ class VideoWindow(QMainWindow):
         rootdir = os.getcwd()
 
         # Load model
-        self.model = MVNetwork(net_name="mvit_v2_s", num_classes=8)
+        self.model = MVNetwork(net_name="mvit_v2_s", agr_type="attention")
         path = os.path.join(rootdir, 'interface')
-        path = os.path.join(path, '8_model.pth.tar')
+        path = os.path.join(path, '14_model.pth.tar')
         path = path.replace('\\', '/' )
 
         # Load weights
