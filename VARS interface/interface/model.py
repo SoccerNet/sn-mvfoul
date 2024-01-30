@@ -1,12 +1,6 @@
+
 import __future__
-
-import numpy as np
-import warnings
-
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
 from interface.mvaggregate import MVAggregate
 from torchvision.models.video import r3d_18, R3D_18_Weights, MC3_18_Weights, mc3_18
 from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights, s3d, S3D_Weights
@@ -16,16 +10,14 @@ from torchvision.models.video import mvit_v2_s, MViT_V2_S_Weights, mvit_v1_b, MV
 
 class MVNetwork(torch.nn.Module):
 
-    def __init__(self, num_classes, sequential=True, net_name='r2plus1d_18', agr_type='max', lifting_net=torch.nn.Sequential()):
+    def __init__(self, net_name='r2plus1d_18', agr_type='max', lifting_net=torch.nn.Sequential()):
         super().__init__()
 
-        self.num_classes = num_classes
         self.net_name = net_name
         self.agr_type = agr_type
         self.lifting_net = lifting_net
         
         self.feat_dim = 512
-        self.sequential = sequential
 
         if net_name == "r3d_18":
             weights_model = R3D_18_Weights.DEFAULT
@@ -54,9 +46,7 @@ class MVNetwork(torch.nn.Module):
             model=network,
             agr_type=self.agr_type, 
             feat_dim=self.feat_dim, 
-            num_classes=self.num_classes, 
             lifting_net=self.lifting_net,
-            sequential=self.sequential
         )
 
     def forward(self, mvimages):
