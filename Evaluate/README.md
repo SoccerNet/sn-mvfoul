@@ -48,7 +48,7 @@ To submit your results on EvalAI or to use the integreted function of the pip pa
 
 ```
 
-# Evaluation on the Chall set on EvalAI
+# How to evaluate online the performances on the challenge
 
 In order to participate in the challenge, the predictions for the challenge set should be submitted as a JSON file on the online evaluation platform EvalAI. Further information can be found on the EvalAI website.
 
