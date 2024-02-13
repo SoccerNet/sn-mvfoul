@@ -293,7 +293,7 @@ if __name__ == '__main__':
     parser.add_argument('--max_num_worker',   required=False, type=int,   default=1, help='number of worker to load data')
     parser.add_argument('--loglevel',   required=False, type=str,   default='INFO', help='logging level')
     parser.add_argument("--continue_training", required=False, action='store_true', help="Continue training")
-    parser.add_argument("--num_views", required=False, type=int, default=1, help="Number of views")
+    parser.add_argument("--num_views", required=False, type=int, default=5, help="Number of views")
     parser.add_argument("--data_aug", required=False, type=str, default="Yes", help="Data augmentation")
     parser.add_argument("--pre_model", required=False, type=str, default="r2plus1d_18", help="Name of the pretrained model")
     parser.add_argument("--pooling_type", required=False, type=str, default="max", help="Which type of pooling should be done")
