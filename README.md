@@ -61,8 +61,7 @@ pip install SoccerNet
 pip install -r requirements.txt
 
 ```
-
-To start the training, run the following command:
+Unzip the dataset and to start the training, run the following command:
 
 ```
 python main.py --path "path/to/dataset" 
