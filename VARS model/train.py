@@ -114,7 +114,7 @@ def train(dataloader,
         ):
     
 
-    # switch to train model
+    # switch to train mode
     if train:
         model.train()
     else:
