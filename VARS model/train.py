@@ -7,6 +7,7 @@ from config.classes import INVERSE_EVENT_DICTIONARY
 import json
 from SoccerNet.Evaluation.MV_FoulRecognition import evaluate
 import wandb
+from tqdm import tqdm
 
 def trainer(train_loader,
             val_loader2,
@@ -24,11 +25,14 @@ def trainer(train_loader,
     
 
     logging.info("start training")
-
     counter = 0
 
-
     for epoch in range(epoch_start, max_epochs):
+        
+        print(f"Epoch {epoch+1}/{max_epochs}")
+    
+        # Create a progress bar
+        pbar = tqdm(total=len(train_loader), desc="Training", position=0, leave=True)
 
         ###################### TRAINING ###################
         prediction_file, loss_action, loss_offence_severity = train(
@@ -40,6 +44,7 @@ def trainer(train_loader,
             model_name,
             train=True,
             set_name="train",
+            pbar=pbar,
         )
 
         results = evaluate(os.path.join(path_dataset, "Train", "annotations.json"), prediction_file)
@@ -55,7 +60,8 @@ def trainer(train_loader,
             epoch + 1,
             model_name,
             train = False,
-            set_name="valid",)
+            set_name="valid"
+        )
 
         results = evaluate(os.path.join(path_dataset, "Valid", "annotations.json"), prediction_file)
         print("VALIDATION")
@@ -93,6 +99,7 @@ def trainer(train_loader,
             path_aux = os.path.join(best_model_path, str(epoch+1) + "_model.pth.tar")
             torch.save(state, path_aux)
         
+    pbar.close()    
     return
 
 def train(dataloader,
@@ -103,10 +110,11 @@ def train(dataloader,
           model_name,
           train=False,
           set_name="train",
+          pbar=None,
         ):
     
 
-    # switch to train mode
+    # switch to train model
     if train:
         model.train()
     else:
@@ -115,7 +123,6 @@ def train(dataloader,
     loss_total_action = 0
     loss_total_offence_severity = 0
     total_loss = 0
-
 
     if not os.path.isdir(model_name):
         os.mkdir(model_name) 
@@ -133,6 +140,9 @@ def train(dataloader,
             targets_offence_severity = targets_offence_severity.cuda()
             targets_action = targets_action.cuda()
             mvclips = mvclips.cuda().float()
+            
+            if pbar is not None:
+                pbar.update()
 
             # compute output
             outputs_offence_severity, outputs_action, _ = model(mvclips)
