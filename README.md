@@ -28,7 +28,7 @@ from SoccerNet.Downloader import SoccerNetDownloader as SNdl
 mySNdl = SNdl(LocalDirectory="path/to/SoccerNet")
 mySNdl.downloadDataTask(task="mvfouls", split=["train","valid","test","challenge"], password="enter password")
 ```
-To obtain the data in 720, add version = "720p" to the input arguments.
+To obtain the data in 720p, add version = "720p" to the input arguments.
 
 The dataset consists of 3901 available actions. Each action is composed of at least two videos depicting the live action and at least one replay. 
 The dataset is divided into a training set (2916 actions), validation set (411 actions), test set (301 actions) and challenge set (273 actions without the annotations).
