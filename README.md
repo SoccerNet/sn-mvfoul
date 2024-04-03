@@ -71,7 +71,7 @@ You can download our pre-trained weights to recreate the baseline: https://drive
 Run the following command:
 
 ```
-python main.py --path "path/to/dataset" --path_to_model_weights "14_model.pth.tar"
+python main.py --pooling_type "attention" --start_frame 63 --end_frame 87 --fps 17 --path "path/to/dataset" --pre_model "mvit_v2_s" --path_to_model_weights "14_model.pth.tar"
 ```
 
 ## VARS interface
