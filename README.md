@@ -60,6 +60,8 @@ pip install SoccerNet
 
 pip install -r requirements.txt
 
+pip install pyav
+
 ```
 Unzip the dataset and to start the training, run the following command:
 
