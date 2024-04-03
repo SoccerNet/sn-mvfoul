@@ -6,7 +6,6 @@ import gc
 from config.classes import INVERSE_EVENT_DICTIONARY
 import json
 from SoccerNet.Evaluation.MV_FoulRecognition import evaluate
-import wandb
 from tqdm import tqdm
 
 def trainer(train_loader,
