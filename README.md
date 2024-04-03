@@ -66,6 +66,13 @@ Unzip the dataset and to start the training, run the following command:
 ```
 python main.py --path "path/to/dataset" 
 ```
+You can download our pre-trained weights to recreate the baseline: https://drive.google.com/drive/folders/1N0Lv-lcpW8w34_iySc7pnlQ6eFMSDvXn?usp=share_link
+
+Run the following command:
+
+```
+python main.py --path "path/to/dataset" --path_to_model_weights "14_model.pth.tar"
+```
 
 ## VARS interface
 
