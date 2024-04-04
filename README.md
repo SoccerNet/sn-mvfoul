@@ -76,6 +76,8 @@ Run the following command:
 python main.py --pooling_type "attention" --start_frame 63 --end_frame 87 --fps 17 --path "path/to/dataset" --pre_model "mvit_v2_s" --path_to_model_weights "14_model.pth.tar"
 ```
 
+The foul usually occurs around the 75th frame. You can trim the clips by using --start_frame or --end_frame to capture only the frames where the foul takes place.
+
 ## VARS interface
 
 The VARS interface enables easy access to all available
