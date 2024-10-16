@@ -120,7 +120,11 @@ Example 2:
 ## License
 See the [License](LICENSE) file for details.
 
+## Youtube video
 
+Check out our video tutorial on the MV-Foul challenge!
+
+[![IMAGE ALT TEXT HERE](images/Thumbnail.jpg)](https://youtu.be/Ir-6D3j_lkA?si=Uwni8jngdsDQrf6w)
 
 ## Citation
 
