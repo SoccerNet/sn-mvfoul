@@ -13,7 +13,9 @@ This evaluation server handles predictions for the open **test** set and the seg
 Winners will be announced during the CVSports workshop at CVPR in June 2025. 
 Prizes 💲💲💲 include $1000 cash award, sponsored by XXXX.
 
-It's not possible to embed videos directly, but you can put an image which links to a YouTube video:
+## Youtube video
+
+Check out our video tutorial on the MV-Foul challenge!
 
 [![IMAGE ALT TEXT HERE](images/Thumbnail.jpg)](https://youtu.be/Ir-6D3j_lkA?si=Uwni8jngdsDQrf6w)
 
