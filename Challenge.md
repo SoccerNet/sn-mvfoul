@@ -15,7 +15,7 @@ Prizes 💲💲💲 include $1000 cash award, sponsored by XXXX.
 
 It's not possible to embed videos directly, but you can put an image which links to a YouTube video:
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://youtu.be/Ir-6D3j_lkA?si=Uwni8jngdsDQrf6w)
+[![IMAGE ALT TEXT HERE](images/Thumbnail.jpg)](https://youtu.be/Ir-6D3j_lkA?si=Uwni8jngdsDQrf6w)
 
 ## Who can participate / How to participate?
 
