@@ -10,9 +10,6 @@ SoccerNet MV-Foul is composed of 3k annotations, span 500 complete soccer games 
 We provide an [evaluation server](www.google.com) for anyone competing in the SoccerNet MV-Foul. 
 This evaluation server handles predictions for the open **test** set and the segregated **challenge** set.
 
-Winners will be announced during the CVSports workshop at CVPR in June 2025. 
-Prizes 💲💲💲 include $1000 cash award, sponsored by XXXX.
-
 ## Youtube video
 
 Check out our video tutorial on the MV-Foul challenge!
