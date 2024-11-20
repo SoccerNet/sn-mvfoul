@@ -33,8 +33,7 @@ Check out our video tutorial on the MV-Foul challenge!
 ## How to win / What is the prize?
 
  - The winner will the individual/team who reaches the highest **balanced accuracy** performance on the **challenge** set.
- - The deadline to submit your results is May 30th at 11.59 pm  Pacific Time.
- - The teams that perform best in each task will be granted $1000 from our sponsor XXX.
+ - The deadline to submit your results is April 24th.
  - In order to be eligible for the prize, we require the individual/team to provide a short report describing the details of the methodology (CVPR format, max 3 pages)
 
 
@@ -44,17 +43,9 @@ Note that these dates are tentative and subject to change if necessary.
 
  - **October 30:** Launch of SoccerNet challenges.
  - **Mid-March:** Deadline for CVsports. We encourage participants to publish their results at the CVsports workshop! 
- - **April 30:** Deadline for the SoccerNet Challenges. The participants have to submit a report.
+ - **April 24:** Deadline for the SoccerNet Challenges.
+ - **May 1:** The participants have to submit a report.
  - **June TBD:** A full-day workshop at CVPR 2025.
-
-
-End of October: Launch of SoccerNet challenges.
-Mid-March: Deadline for CVsports. We will improve the communication and invite every participant to submit a paper. The review process is quick and we will have the list of accepted paper by mid-April
-End of April: Deadline for the SoccerNet Challenges. The participants will have to provide a report, they can refer to their CVsports paper.
-May: We review the reports and confirm the leaderboard. We prepare presentation material for CVsports
-June: CVsports @CVPR: We release the results of the SoccerNet Challenges 2025.
-Summer: We publish on arxiv the usual SoccerNet challenge results paper.
-
 
 ## Contact
 
