@@ -29,7 +29,7 @@ Check out our video tutorial on the MV-Foul challenge!
 
 ## How to win / What is the prize?
 
- - The winner will the individual/team who reaches the highest **balanced accuracy** performance on the **challenge** set.
+ - The winner will be the individual/team who reaches the highest **balanced accuracy** performance on the **challenge** set.
  - The deadline to submit your results is April 24th.
  - In order to be eligible for the prize, we require the individual/team to provide a short report describing the details of the methodology (CVPR format, max 3 pages)
 
